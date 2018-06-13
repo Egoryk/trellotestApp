@@ -1,4 +1,4 @@
-package com.prototype.testApp.domain;
+package com.prototype.testApp.dto;
 
 public class TransferCard {
    private Long card;

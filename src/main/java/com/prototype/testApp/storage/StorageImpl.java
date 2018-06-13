@@ -3,20 +3,14 @@ package com.prototype.testApp.storage;
 
 import com.prototype.testApp.domain.Card;
 import com.prototype.testApp.domain.Line;
-import com.prototype.testApp.domain.TransferCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class StorageImpl implements Storage {
@@ -73,18 +67,28 @@ public class StorageImpl implements Storage {
     }
 
     @Override
-    public void transferCard(TransferCard card) {
-        template.update("update cards set line=? where id =?",card.getToLane(),card.getCard());
-        List<Card> fromCards = cacheMap.get(card.getFromLane()).getCards();
-        List<Card> toCards = cacheMap.get(card.getToLane()).getCards();
+    public void updateCard(Card card) {
+        template.update("update cards set title=? where id=?",card.getTitle(),card.getId());
+    }
+
+    @Override
+    public void removeCard(Long id) {
+        template.update("delete from cards where id =?",id);
+    }
+
+    @Override
+    public void transferCard(Long cardId,Long fromLane,Long toLane) {
+        template.update("update cards set line=? where id =?",toLane,cardId);
+        List<Card> fromCards = cacheMap.get(fromLane).getCards();
+        List<Card> toCards = cacheMap.get(toLane).getCards();
         Optional<Card> cardOptional = fromCards.stream()
-                .filter(c -> c.getId().equals(card.getCard()))
+                .filter(c -> c.getId().equals(cardId))
                 .findAny();
         if (cardOptional.isPresent()) {
             Card findCard = cardOptional.get();
 
             fromCards.remove(findCard);
-            findCard.setLine(card.getToLane());
+            findCard.setLine(toLane);
             toCards.add(findCard);
         }
     }
