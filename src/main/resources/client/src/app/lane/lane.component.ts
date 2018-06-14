@@ -37,9 +37,16 @@ export class LaneComponent implements OnInit {
     }
   }
 
-  updateCard(card) {
+  updateCard(card ) {
     console.log("updateCard")
-    }
+    console.log(card.title)
+    this.setFormVisibility(true);
+    this.newCardTitle=card.title;
+
+  }
+  deleteCard() {
+    console.log("delete card ")
+
   }
 
   setFormVisibility(b) {

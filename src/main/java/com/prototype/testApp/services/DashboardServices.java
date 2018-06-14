@@ -17,29 +17,13 @@ public class DashboardServices {
         this.storage = storage;
     }
 
-
     public Collection<Line> loadData() {
         return storage.loadData();
-    }
-
-    public void transferCard(Long card, Long fromLane, Long toLane) {
-        storage.transferCard(card,fromLane,toLane);
-    }
-
-    public void saveCard(Card card) {
-        storage.saveCard(card);
     }
 
     public void saveLine(Line line) {
         storage.saveLine(line);
     }
 
-    public void updateCard(Card card) {
-        storage.updateCard(card);
-    }
 
-    public void removeCard(Long cardId) {
-        storage.removeCard(cardId);
-
-    }
 }
