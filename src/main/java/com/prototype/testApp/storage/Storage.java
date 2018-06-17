@@ -14,7 +14,7 @@ public interface Storage {
 
     void updateCard(Card card);
 
-    void removeCard(Long id);
+    void removeCard(Card card);
 
     void transferCard(Long cardId,Long fromLane,Long toLane);
 }

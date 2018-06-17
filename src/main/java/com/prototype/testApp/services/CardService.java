@@ -15,14 +15,13 @@ public class CardService {
     }
 
     public void saveCard(Card card) {
-        storage.saveCard(card);
+        if (card.getId()==null) {
+            storage.saveCard(card);
+        }else storage.updateCard(card);
     }
 
-    public void updateCard(Card card) {
-        storage.updateCard(card);
-    }
 
-    public void removeCard(Long cardId) {
-        storage.removeCard(cardId);
+    public void removeCard(Card card) {
+        storage.removeCard(card);
     }
 }

@@ -44,14 +44,10 @@ public class DataController {
     }
 
     @PostMapping("/deleteCard")
-    public ResponseEntity removeCard(@RequestBody Long cardId) {
-        cardService.removeCard(cardId);
+    public ResponseEntity removeCard(@RequestBody Card card) {
+        cardService.removeCard(card);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/updateCard")
-    public ResponseEntity<Card>udateCard(@RequestBody Card card) {
-        cardService.updateCard(card);
-        return ResponseEntity.ok(card);
-    }
+
 }

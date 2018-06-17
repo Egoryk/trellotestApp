@@ -35,6 +35,15 @@ export class DashBoardService {
     return this.http.post('http://localhost:8080/card',bodyString,{headers} )
   }
 
+  removeCard(card) {
+    let bodyString = JSON.stringify(card);
+    console.log(bodyString);
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    return this.http.post('http://localhost:8080/deleteCard',bodyString,{headers} )
+  }
+
   transferCard(cardId,fromLane,toLane){
     let bodyString = JSON.stringify({
       card: cardId,

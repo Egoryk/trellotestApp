@@ -69,11 +69,22 @@ public class StorageImpl implements Storage {
     @Override
     public void updateCard(Card card) {
         template.update("update cards set title=? where id=?",card.getTitle(),card.getId());
+        Optional.ofNullable(cacheMap.get(card.getLine()))
+                .ifPresent(line -> {
+                    List<Card> cards = line.getCards();
+                    cards.stream().filter(c->c.getId().equals(card.getId()))
+                            .findAny().ifPresent(findcard->findcard.setTitle(card.getTitle()));
+                });
     }
 
     @Override
-    public void removeCard(Long id) {
-        template.update("delete from cards where id =?",id);
+    public void removeCard(Card card) {
+        template.update("delete from cards where id =?",card.getId());
+        Optional.ofNullable(cacheMap.get(card.getLine()))
+                .ifPresent(line -> {
+                    List<Card> cards = line.getCards();
+                    cards.removeIf(card1 -> card1.getId().equals(card.getId()));
+                });
     }
 
     @Override
@@ -86,7 +97,6 @@ public class StorageImpl implements Storage {
                 .findAny();
         if (cardOptional.isPresent()) {
             Card findCard = cardOptional.get();
-
             fromCards.remove(findCard);
             findCard.setLine(toLane);
             toCards.add(findCard);
@@ -95,7 +105,7 @@ public class StorageImpl implements Storage {
 
     private List<Card> loadCards(Long id) {
         return template.query("select * from cards WHERE line =?",rs->{
-            ArrayList<Card> cards = new ArrayList<>();
+            List<Card> cards = Collections.synchronizedList(new ArrayList<Card>());
             while(rs.next()){
                 Card card = new Card();
                 card.setId(rs.getLong("id"));

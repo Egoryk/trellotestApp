@@ -35,18 +35,14 @@ export class DashboardComponent implements OnInit {
     var cardId = args[0].firstElementChild.id;
     var toLane = args[1].id;
     var fromLane = args[2].id;
-    console.log('lol'+cardId);
-    console.log('lol'+toLane);
-    console.log('lol'+fromLane);
     if(toLane !== fromLane) {
       this.dashBoardService.transferCard(cardId, fromLane, toLane).subscribe(data => {
         console.log(data);
-      });
+      },error => console.log(error));
     }
   }
 
   createLane(){
-    console.log("create");
     var clone = JSON.parse(JSON.stringify(this.newLaneModel));
     this.dashBoardService.createLane(clone).subscribe((laneObj) => {
       if(laneObj) {
