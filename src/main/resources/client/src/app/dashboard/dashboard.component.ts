@@ -43,7 +43,17 @@ export class DashboardComponent implements OnInit {
   }
 
   createLane(){
+
     var clone = JSON.parse(JSON.stringify(this.newLaneModel));
+    let title = clone.title;
+    //:todo change on angular validation
+    if(title==null){
+      alert("title must be not null");
+      return;
+    }else if (title.length<=3||title.length>50){
+      alert("title length must be between 3 and 50 characters");
+      return;
+    }
     this.dashBoardService.createLane(clone).subscribe((laneObj) => {
       if(laneObj) {
         this.newLaneModel = {};

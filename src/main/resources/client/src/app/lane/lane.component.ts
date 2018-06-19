@@ -31,6 +31,16 @@ export class LaneComponent implements OnInit {
         lane: self.lane._id
       };
 
+      //todo change ffor angular validation
+      let cardTitle = newCardObj.title;
+      if(cardTitle==null){
+        alert("cardTitle must be not null");
+        return;
+      }else if (cardTitle.length<=3||cardTitle.length>50){
+        alert("cardTitle length must be between 3 and 50 characters");
+        return;
+      }
+
       this.dashBoardService.createCard(newCardObj).subscribe(card => {
         if(this.laneCardId!=undefined){
           let cards = this.lane.cards;
