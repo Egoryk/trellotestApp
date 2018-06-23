@@ -31,12 +31,14 @@ export class LaneComponent implements OnInit {
         lane: self.lane._id
       };
 
-      //todo change ffor angular validation
-      let cardTitle = newCardObj.title;
+      //:todo change ffor angular validation
+      var clone = JSON.parse(JSON.stringify(newCardObj));
+      var cardTitle = clone.title;
+      var len= cardTitle.length;
       if(cardTitle==null){
         alert("cardTitle must be not null");
         return;
-      }else if (cardTitle.length<=3||cardTitle.length>50){
+      }else if (len<3||len>50){
         alert("cardTitle length must be between 3 and 50 characters");
         return;
       }

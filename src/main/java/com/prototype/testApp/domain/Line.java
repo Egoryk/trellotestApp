@@ -2,13 +2,21 @@ package com.prototype.testApp.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+@Entity(name = "Line")
+@Table(name = "lines")
 public class Line {
     @JsonProperty("_id")
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private List<Card> cards;
+     @OneToMany(mappedBy = "line",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Card> cards =new ArrayList<>();
 
     public Long getId() {
         return id;

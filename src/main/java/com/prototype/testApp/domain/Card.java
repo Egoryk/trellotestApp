@@ -2,10 +2,15 @@ package com.prototype.testApp.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity(name = "Card")
+@Table(name = "cards")
 public class Card implements Serializable{
     @JsonProperty("_id")
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String title;
     @JsonProperty("lane")

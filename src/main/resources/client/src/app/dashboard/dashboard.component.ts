@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
     if(title==null){
       alert("title must be not null");
       return;
-    }else if (title.length<=3||title.length>50){
+    }else if (title.length<3||title.length>50){
       alert("title length must be between 3 and 50 characters");
       return;
     }
